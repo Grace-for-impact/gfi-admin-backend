@@ -8,7 +8,7 @@ import path from "path";
 // @desc    Submit a new application
 // @route   POST /api/applications
 // @access  Public
-export const submitApplication = async (req: Request, res: Response) => {
+export const submitApplication = async (req: any, res: Response) => {
   try {
     let applicationData = req.body;
 
