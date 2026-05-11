@@ -1,41 +1,27 @@
 import { Request, Response } from "express";
 import Application from "../models/Application";
 import sendEmail from "../utils/sendEmail";
-import cloudinary from "../config/cloudinary";
-import fs from "fs";
-import path from "path";
 
 // @desc    Submit a new application
 // @route   POST /api/applications
 // @access  Public
-export const submitApplication = async (req: any, res: Response) => {
+export const submitApplication = async (req: Request, res: Response) => {
   try {
-    let applicationData = req.body;
+    const { personalInfo, education, experience, coverLetter, resumeUrl, jobId } = req.body;
 
-    // If data is sent as a string (common with FormData), parse it
-    if (typeof applicationData.data === "string") {
-      applicationData = JSON.parse(applicationData.data);
+    // Validate that we have the resume URL from the frontend upload
+    if (!resumeUrl) {
+      return res.status(400).json({ message: "Please upload your CV/Resume" });
     }
 
-    // Handle File Upload to Cloudinary
-    if (!req.file) {
-      return res.status(400).json({ message: "Please upload a CV/Resume" });
-    }
-
-    // Upload to Cloudinary with original extension preservation
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "gfi_applications",
-      resource_type: "raw",
-      public_id: `${req.file.fieldname}-${Date.now()}${path.extname(req.file.originalname)}`,
-    });
-
-    // Remove file from local storage
-    fs.unlinkSync(req.file.path);
-
-    // Create application with Cloudinary URL
+    // Create application with the provided Cloudinary URL
     const application = await Application.create({
-      ...applicationData,
-      resumeUrl: result.secure_url,
+      personalInfo,
+      education,
+      experience,
+      coverLetter,
+      resumeUrl,
+      jobId
     });
 
     // Fetch application with Job details for the email

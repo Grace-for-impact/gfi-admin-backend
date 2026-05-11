@@ -6,12 +6,11 @@ import {
   updateApplicationStatus,
 } from "../controllers/applicationController";
 import { protect } from "../middlewares/authMiddleware";
-import { upload } from "../middlewares/uploadMiddleware";
 
 const router = express.Router();
 
 // Public submission
-router.post("/", upload.single("resume"), submitApplication);
+router.post("/", submitApplication);
 
 // Admin only routes
 router.get("/", protect, getApplications);
