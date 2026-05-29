@@ -96,7 +96,7 @@ export const submitApplication = async (req: Request, res: Response) => {
       `;
 
       await sendEmail({
-        email: process.env.HR_EMAIL || "hr@graceforimpact.org",
+        email: "hr@graceforimpact.org",
         subject: `New Application: ${personalInfo.fullName} - ${jobId.title}`,
         message: emailMessage,
         html: emailHtml,

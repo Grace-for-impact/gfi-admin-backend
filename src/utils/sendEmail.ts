@@ -16,11 +16,6 @@ const sendEmail = async (options: EmailOptions) => {
       user: "noreply@graceforimpact.org", // your cPanel email address
       pass: ")lDopLgl2L=O", // your cPanel email password
     },
-    // service: "gmail",
-    // auth: {
-    //   user: "techdevjerry@gmail.com", // your cPanel email address
-    //   pass: "nscodzumgymincbh", // your cPanel email password
-    // },
   });
 
   const message = {
