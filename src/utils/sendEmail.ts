@@ -9,12 +9,12 @@ interface EmailOptions {
 
 const sendEmail = async (options: EmailOptions) => {
   const transporter = nodemailer.createTransport({
-    host: "premium283.web-hosting.com",
-    port: 465,
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
     secure: true, // true for 465, false for other ports
     auth: {
-      user: "noreply@graceforimpact.org", // your cPanel email address
-      pass: ")lDopLgl2L=O", // your cPanel email password
+      user: process.env.SMTP_EMAIL, // your cPanel email address
+      pass: process.env.SMTP_PASSWORD, // your cPanel email password
     },
   });
 
